@@ -1,0 +1,26 @@
+<% if @like.likeable_type == "Post" %>
+	<% if @like.like == true %>
+		$("#like-post-<%= @post.id %>").html("<%= j link_to "unlike(#{@post.likes.where(like: true).count})", like_path(@post.id, 'post_id': @post.id), method: :delete, remote: true %>");
+		$("#dislike-post-<%= @post.id%>").html("<%= j link_to "dislike(#{@post.likes.where(like: false).count})", likes_path('post_id': @post.id, 'like': false), method: :post, remote:  true%>");
+	<% else %>
+		$("#like-post-<%= @post.id%>").html("<%= j link_to "like(#{@post.likes.where(like: true).count})", likes_path('post_id': @post.id, 'like': true), method: :post, remote:  true%>");
+		$("#dislike-post-<%= @post.id %>").html("<%= j link_to "dislike(#{@post.likes.where(like: false).count})", like_path(@post.id, 'post_id': @post.id), method: :delete, remote: true %>");
+	<% end %>
+<% elsif @like.likeable_type == "Comment" %>
+  <% if @like.like ==true %>
+    $("#like-comment-<%= @comment.id %>").html("<%= j link_to "unlike(#{@comment.likes.where(like: true).count})", like_path(@comment.id, 'comment': @comment.id), method: :delete, remote: true %>");
+		$("#dislike-comment-<%= @comment.id%>").html("<%= j link_to "dislike(#{@comment.likes.where(like: false).count})", likes_path('comment_id': @comment.id, 'like': false), method: :post, remote:  true%>");
+	<%else%>
+	  $("#like-comment-<%= @comment.id%>").html("<%= j link_to "like(#{@comment.likes.where(like: true).count})", likes_path('comment_id': @comment.id, 'like': true), method: :post, remote:  true%>");
+		$("#dislike-comment-<%= @comment.id %>").html("<%= j link_to "dislike(#{@comment.likes.where(like: false).count})", like_path(@comment.id, 'comment_id': @comment.id), method: :delete, remote: true %>");
+  <%end%>
+
+<% elsif @like.likeable_type == "Reply" %>
+  <% if @like.like ==true %>
+    $("#like-reply-<%= @reply.id %>").html("<%= j link_to "unlike(#{@reply.likes.where(like: true).count})", like_path('reply': @reply.id), method: :delete, remote: true %>");
+		$("#dislike-reply-<%= @reply.id%>").html("<%= j link_to "dislike(#{@reply.likes.where(like: false).count})", likes_path('reply': @reply.id, 'like': false), method: :post, remote:  true%>");
+	<%else%>
+	  $("#like-comment-<%= @reply.id%>").html("<%= j link_to "like(#{@reply.likes.where(like: true).count})", likes_path('reply_id': @reply.id, 'like': true), method: :post, remote:  true%>");
+		$("#dislike-comment-<%= @reply.id %>").html("<%= j link_to "dislike(#{@reply.likes.where(like: false).count})", like_path('reply_id': @reply.id), method: :delete, remote: true %>");
+  <%end%>
+<%end%>

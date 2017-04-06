@@ -1,0 +1,74 @@
+<div id="new_post"></div>
+<div id="all-posts">
+  <div class="row">
+    
+    <% @posts.each_with_index do |post, index| %>
+      <div class="col-sm-6 col-md-4, col-md-offset-4">
+        <div class="thumbnail">
+          <div class="caption">
+            <div id="post-<%=post.id%>">
+      		    <span><%= image_tag (post.image.url(:medium)) %></span><br>
+              <span><%= post.content %></span>
+      		    <span><%= link_to 'comment', new_post_comment_path(post), remote: true%></span>
+              <!--check current_member id for post -->
+              <% if post.member.eql?(current_member)%>
+                <span><%= link_to '', edit_post_path(post), :class=>"glyphicon glyphicon-pencil", data: {id: post.id}, remote: true %></span>
+                <span><%= link_to '', post_path(post), method: :delete, :class=>"glyphicon glyphicon-remove-sign", remote: true%></span>
+              <%end%>
+               <!--like and dislike links for post-->
+                <span id="like-post-<%= post.id%>"><%= link_to "like(#{ post.likes.where(like: true).count})", likes_path(post_id: post, like: true), method: :post, remote: true%></span>
+                <span id="dislike-post-<%= post.id%>"><%= link_to "dislike(#{post.likes.where(like: false).count})", likes_path(post_id: post, like: false), method: :post, remote: true%></span> 
+              <div id="post-comment-<%= post.id%>"></div>
+            </div>
+          
+            <% post.comments.each_with_index do |comment, index| %>
+	            <div class="thumbnail">
+	              <div class="caption">
+                  <div id="comment-<%=comment.id%>">
+                    <span><%= image_tag (comment.image.url) %></span><br>
+	                  <span><%= comment.content %></span>
+          	        <span><%= link_to 'reply', new_post_comment_reply_path(post, comment),  remote: true%></span>
+                    <!--checking current_member id for comment -->
+                    <% if comment.member_id.eql?(current_member.id) %>
+                      <span  id="edit-comment-<%=comment.id%>"><%= link_to  '', edit_post_comment_path(post, comment), :class=>"glyphicon glyphicon-pencil", remote: true%></span>
+                      <span><%= link_to '', post_comment_path(post, comment), method: :delete, data: { confirm: 'Are you sure?' }, :class=>"glyphicon glyphicon-remove-sign", remote: true%></span>
+                    <%end%>
+                    <!-- like and dislike links for post.comment -->
+                    <span id="like-comment-<%= comment.id%>"><%= link_to "like(#{comment.likes.where(like: true).count})", likes_path(comment_id: comment, like: true), method: :post, remote:  true%></span>
+                    <span id="dislike-comment-<%= comment.id%>"><%= link_to "dislike(#{comment.likes.where(like: false).count})", likes_path(comment_id: comment, like: false), method: :post, remote: true%></span> 
+                    <div id="post-comment-<%= comment.post.id%>"></div>
+                    <div id="post-comment-reply-<%= comment.id%>"></div>
+                  </div>
+
+                  <% comment.replies.each_with_index do |reply, index| %>
+                    <div class="thumbnail">
+                      <div class="caption">
+                        <div id="reply-<%=reply.id%>">
+                          <span><%= reply.content%></span>
+                          <!-- checking current_member id for reply -->
+                          <%if reply.member_id.eql?(current_member.id)%>
+                            <span ><%= link_to  '',  edit_post_comment_reply_path(comment.post, comment, reply), :class=>"glyphicon glyphicon-pencil", remote: true%></span>
+                            <span><%= link_to '',  post_comment_reply_path(post, comment, reply), method: :delete, data: { confirm: 'Are you sure?' }, :class=>"glyphicon glyphicon-remove-sign", remote: true %></span>
+                          <%end%>
+                          <!-- like and dislike links for Reply -->
+                          <span id="like-reply-<%= reply.id%>"><%= link_to "like(#{reply.likes.count})", likes_path(reply_id: reply), method: :post, remote: true%>
+                          </span>
+
+                          <span id="dislike-reply-<%= reply.id%>"><%= link_to "dislike(#{reply.likes.count})", likes_path(reply_id: reply), method: :post, remote: true%></span>
+                          <div id="post-comment-reply-<%=comment.id%>"></div>
+                        </div>
+                      </div>
+                    </div>
+                  <%end%>
+
+                </div>
+              </div>
+            <%end%>
+
+          </div>
+        </div>
+      </div>
+    <%end%>
+
+  </div>
+</div>

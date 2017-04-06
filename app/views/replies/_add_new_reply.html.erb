@@ -1,0 +1,10 @@
+<div id="reply-<%=@reply.id%>">
+  <span><%= @reply.content%></span>
+    <%= link_to  '',  edit_post_comment_reply_path(@comment.post, @comment, @reply), :class=>"glyphicon glyphicon-pencil", remote: true%>
+	<%= link_to '',  post_comment_reply_path(@comment.post, @comment, @reply), method: :delete, data: { confirm: 'Are you sure?' }, :class=>"glyphicon glyphicon-remove-sign", remote: true %>
+	<div id="post-comment-reply-<%=@comment.id%>"></div>
+</div>
+
+
+
+                      

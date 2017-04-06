@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Social Application</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Social Application</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <% if current_member %>
+          <li class="active"><a href="/posts"> All Posts</a></li>
+          <li><a href="/posts/new">New Post</a></li>
+          <li><%= link_to "Message", messages_path(current_member.id)%></li>
+
+        <%else%>
+          <li class="active"><a href="/">Home</a></li>
+        <%end%>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if current_member %>
+          <%= link_to destroy_member_session_path, method: :delete do %>
+            <span class="glyphicon glyphicon-log-out logout-btn"> Logout</span> 
+          <%end%>
+        <%else%>
+          <li><a href="/members/sign_up"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="/members/sign_in"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <%end%>
+      </ul>
+    </div>
+  </nav>
+  <%= yield %>
+ </body>
+</html>

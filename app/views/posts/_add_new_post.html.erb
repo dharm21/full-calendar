@@ -1,0 +1,10 @@
+<div id="@post.id">
+  <p><%= indexplus ="Post #"%></p>
+    <!-- <div id="first"><%#= @post.name %></td> -->
+    <p><%=image_tag (@post.image) %></p><br>
+    <p><%= @post.content %></p>  
+    <p><%= link_to 'comment', new_post_comment_path(@post)%></p>
+    <p><%= link_to '', edit_post_path(@post), :class=>"glyphicon glyphicon-pencil", data: {id: @post.id}, remote: true %></p>
+    <p><%= link_to '', post_path(@post), method: :delete,
+      data: { confirm: 'Are you sure?' }, :class=>"glyphicon glyphicon-remove-sign", remote: true%></p>
+</div>

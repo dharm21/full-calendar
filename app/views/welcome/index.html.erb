@@ -1,0 +1,34 @@
+<div id="new_message"></div>
+  <div class="col-md-4 col-md-offset-4">
+    <div class="well">
+      <table class="table">
+        <th>contacts</th>
+        <tr>
+          <th>sr no.</th>
+          <th>email</th>
+          <th>create message</th>
+        </tr>
+        <%@member.each_with_index do |member, index| %>
+          <% if member !=(current_member)%>
+            <tr>
+              <td><%= index = "#{index+1}" %></td>
+              <td><%= member.email %></td>
+              <td><%= link_to  'Message', new_message_path(receiver_id: member.id)%>
+              </td>
+            
+              <% if current_member.invite_friendships.where(friend_id: member.id).empty?  %>
+                <td><%= link_to  'send Request', friendships_path(friend_id: member.id, member_id: current_member.id), method: :post%></td>
+          
+              <% elsif current_member.invite_friendships.where(friend_id: member.id, accepted: nil).present? %>
+                <td><%= link_to  'Aceept Request', friendships_path(friend_id: member.id, accepted: true), method: :post%></td>
+              <%else%>
+                  <td>Request sent</td>
+              <%end%>
+            </tr>
+          <%end%>
+        <%end%>
+      </table>
+    </div>
+  </div>
+
+  <!-- link_to  'Aceept Request', friendships_path(friend_id: member.id, accepted: true), method: :post -->

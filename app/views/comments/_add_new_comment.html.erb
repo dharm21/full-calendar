@@ -1,0 +1,15 @@
+<div id="comment-<%=@comment.id%>">
+  comment:<p><%= image_tag (@comment.image)%></p><br>
+  <span><%= @comment.content%></span>
+  <span><%= link_to 'reply', new_post_comment_reply_path(@post, @comment),  remote: true%></span>
+  <span><%= link_to  '', edit_post_comment_path(@post, @comment), :class=>"glyphicon glyphicon-pencil", remote: true%></span>
+  <span><%= link_to '', post_comment_path(@post, @comment), method: :delete, data: { confirm: 'Are you sure?' }, :class=>"glyphicon glyphicon-remove-sign"%></span>
+  <span id="like-comment-<%= @comment.id%>"><%= link_to 'like', likes_path(comment_id: @comment), method: :post, remote:  true%>
+  </span>
+  <div id="post-comment-<%= @comment.post.id%>">
+  </div>
+  <div id="post-comment-reply-<%= @comment.id%>">
+  </div>
+</div>
+
+         

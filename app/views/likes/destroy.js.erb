@@ -1,0 +1,9 @@
+<% if @like.likeable_type == "Post" %>
+  $("#like-post-<%= @post.id%>").html("<%= j link_to "like(#{@post.likes.where(like: true).count})", likes_path('post_id': @post.id, 'like': true), method: :post, remote:  true%>");
+  $("#dislike-post-<%= @post.id%>").html("<%= j link_to "dislike(#{@post.likes.where(like: false).count})", likes_path('post_id': @post.id, 'like': false), method: :post, remote:  true%>");
+<% elsif @like.likeable_type == "Comment" %>
+  $("#like-comment-<%= @comment.id%>").html("<%= j link_to "like(#{@comment.likes.where(like: true).count})", likes_path('comment_id': @comment, 'like': true), method: :post, remote:  true%>");
+  $("#dislike-comment-<%= @comment.id%>").html("<%= j link_to "dislike(#{@comment.likes.where(like: false).count})", likes_path('comment_id': @comment.id, 'like': false), method: :post, remote:  true%>");
+<% elsif @like.likeable_type == "Reply" %>
+  $("#like-reply-<%= @reply.id%>").html("<%= j link_to "like(#{@reply.likes.count})", likes_path('reply_id': @reply), method: :post, remote:  true%>");  
+<%end%>

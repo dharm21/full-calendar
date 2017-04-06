@@ -1,0 +1,5 @@
+<%=form_for [@comment.post, @comment, @reply], method: :patch, remote: true do |f| %>
+  <%= f.label      :reply%>
+  <%= f.text_field :content%>
+  <%= f.submit "Submit", class: "btn btn-primary btn-sm"%>
+<%end%>
